@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>K&amp;K Shop — Trailer In &amp; Out</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#14161C;--steel:#5A6270;--hairline:#CFD3D9;--paper:#EFF1F4;--card:#FFF;
+    --brand:#2E3192;--amber:#B0770F;--amber-tint:#FBF2E0;--rust:#A33A2A;--rust-tint:#F9EAE7;
+    --green:#2C6E33;--green-tint:#E9F2EA;--r:4px}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:17px;line-height:1.5;padding-bottom:60px}
+  .wrap{max-width:720px;margin:0 auto;padding:0 18px}
+  header{background:var(--ink);color:#fff;padding:22px 0;border-bottom:5px solid var(--brand)}
+  header b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    font-size:32px;line-height:.95;letter-spacing:.04em;text-transform:uppercase}
+  header span{display:block;margin-top:5px;font-size:14px;color:#9AA1AE}
+
+  /* tabs */
+  .tabs{display:flex;gap:8px;position:sticky;top:0;z-index:10;
+    background:var(--paper);padding:14px 0 12px}
+  .tab{flex:1;appearance:none;border:2px solid var(--hairline);background:var(--card);
+    color:var(--steel);border-radius:var(--r);padding:14px 8px;cursor:pointer;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;
+    letter-spacing:.04em;text-transform:uppercase;line-height:1}
+  .tab.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .tab:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+
+  .panel{display:none}
+  .panel.on{display:block}
+
+  h2{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;
+    letter-spacing:.04em;text-transform:uppercase;margin:26px 0 6px;
+    padding-bottom:6px;border-bottom:3px solid var(--ink)}
+  .sub{color:var(--steel);font-size:15px;margin:0 0 16px}
+
+  .stepbox{background:var(--card);border:1px solid var(--hairline);
+    border-left:6px solid var(--brand);border-radius:var(--r);
+    padding:16px 18px;margin-bottom:12px}
+  .stepbox .n{display:inline-block;background:var(--ink);color:#fff;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;
+    width:28px;height:28px;line-height:28px;text-align:center;border-radius:50%;
+    margin-bottom:8px}
+  .stepbox h3{margin:0 0 6px;font-size:19px;font-weight:700;line-height:1.25}
+  .stepbox p{margin:0 0 8px;font-size:16px;color:var(--steel)}
+  .stepbox ul{margin:0;padding-left:20px;font-size:16px;color:var(--steel)}
+  .stepbox li{margin-bottom:5px}
+  .stepbox.stop{border-left-color:var(--rust)}
+  .stepbox.go{border-left-color:var(--green)}
+
+  .msg{background:#1B1E26;color:#E4E7EC;border-radius:var(--r);
+    padding:14px 16px;font-size:15.5px;line-height:1.65;
+    white-space:pre-wrap;margin:10px 0 6px;font-family:ui-monospace,Menlo,monospace}
+  .msg b{color:#F0C674;font-weight:500}
+  .copy{width:100%;background:var(--brand);color:#fff;border:0;border-radius:var(--r);
+    padding:13px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;
+    cursor:pointer;margin-bottom:18px}
+  .copy:active{opacity:.85}
+  .copy:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+  .flag{border-radius:var(--r);padding:15px 17px;margin:16px 0;font-size:16px;line-height:1.5}
+  .flag b{display:block;font-size:17px;margin-bottom:5px}
+  .flag.warn{background:var(--amber-tint);border-left:6px solid var(--amber)}
+  .flag.warn b{color:var(--amber)}
+  .flag.stop{background:var(--rust-tint);border-left:6px solid var(--rust)}
+  .flag.stop b{color:var(--rust)}
+  .flag.go{background:var(--green-tint);border-left:6px solid var(--green)}
+  .flag.go b{color:var(--green)}
+
+  .photos{background:var(--card);border:1px solid var(--hairline);border-radius:var(--r);
+    padding:16px 18px;margin:14px 0}
+  .photos h3{margin:0 0 10px;font-size:18px;font-weight:700}
+  .photos label{display:flex;gap:11px;align-items:flex-start;
+    padding:9px 0;border-bottom:1px solid #EDEFF2;font-size:16px;cursor:pointer}
+  .photos label:last-child{border-bottom:0}
+  .photos input{width:22px;height:22px;margin:1px 0 0;flex:0 0 22px;accent-color:var(--brand)}
+  .reset{background:none;border:1px solid var(--hairline);border-radius:var(--r);
+    padding:8px 14px;font-size:13.5px;color:var(--steel);cursor:pointer;margin-top:10px}
+
+  .call{background:var(--card);border:1px solid var(--hairline);border-radius:var(--r);
+    padding:16px 18px;margin:16px 0}
+  .call h3{margin:0 0 8px;font-size:18px;font-weight:700}
+  .call p{margin:0 0 6px;font-size:16px;color:var(--steel)}
+  footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--hairline);
+    font-size:14px;color:var(--steel);line-height:1.6}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <b>Shop — Trailers</b>
+  <span>Corey &amp; Brett, Rimbey · Connor, Delisle</span>
+</div></header>
+
+<div class="wrap">
+
+  <div class="tabs">
+    <button class="tab on" data-p="in">Trailer<br>came back</button>
+    <button class="tab" data-p="out">Trailer<br>going out</button>
+  </div>
+
+  <!-- ================= RETURNED ================= -->
+  <div class="panel on" id="in">
+
+    <div class="flag stop">
+      <b>Do the quick look the day you see it</b>
+      Not when it comes into the shop. If we find damage a week later it is a much harder conversation
+      with the customer, and sometimes we just wear it.
+    </div>
+
+    <h2>Stage 1 — the quick look</h2>
+    <p class="sub">Two minutes, the day the trailer shows up. Two questions only.</p>
+
+    <div class="stepbox">
+      <span class="n">1</span>
+      <h3>Is it dirty?</h3>
+      <p>Washed or not. Any product left in the hoppers. Photo it before anything gets cleaned up.</p>
+    </div>
+
+    <div class="stepbox">
+      <span class="n">2</span>
+      <h3>Is there damage?</h3>
+      <p>Walk around it. If there is damage, photo it and give a rough number for what it will cost to
+      fix. A ballpark is fine — Edward just needs something to work with.</p>
+    </div>
+
+    <div class="stepbox">
+      <span class="n">3</span>
+      <h3>Customer there? Do it with him</h3>
+      <p>If he happens to be standing there, walk around it together. Most returns are weekends and after
+      hours so usually he is not — that is fine, just do it on your own.</p>
+    </div>
+
+    <div class="stepbox go">
+      <span class="n">4</span>
+      <h3>Post it to Edward straight away</h3>
+      <div class="msg" id="m1">Unit <b>[UNIT #]</b> is back.
+Dropped <b>[WHEN]</b>.
+
+Dirty: <b>[YES - WHAT / NO]</b>
+Damage: <b>[WHAT AND WHERE / NONE]</b>
+Rough cost to fix: <b>$[BALLPARK / N/A]</b>
+
+Photos attached.</div>
+      <button class="copy" data-t="m1">Copy message</button>
+    </div>
+
+    <div class="flag warn">
+      <b>Photos before cleanup</b>
+      Once it is washed we cannot charge for it. Same with damage — photo it before anything gets touched.
+    </div>
+
+    <h2>Stage 2 — full inspection</h2>
+    <p class="sub">When the shop has time. Same checklist as always.</p>
+
+    <div class="stepbox">
+      <span class="n">5</span>
+      <h3>Work the checklist</h3>
+      <ul>
+        <li>Wash and clean out — all product out of the hoppers</li>
+        <li>Lights, air system, brakes, tires — fill in the measurements</li>
+        <li>Brake lining — replace under 3/8"</li>
+        <li>Tires — replace under 5mm, keep 105–110 psi</li>
+        <li>Rivets, cracks, fenders, landing gear, chutes, tarps</li>
+        <li>Grease everything</li>
+        <li>CVIP — if it expires within 3 months, get a new one on</li>
+      </ul>
+    </div>
+
+    <div class="stepbox">
+      <span class="n">6</span>
+      <h3>Anything else that turns up</h3>
+      <p>If the full inspection finds damage the quick look missed, post it to Edward the same way. Better
+      late than never.</p>
+    </div>
+
+    <div class="stepbox">
+      <span class="n">7</span>
+      <h3>Time and parts on the work order</h3>
+      <p>Keep wash and customer damage itemized separately so Edward can bill it back.</p>
+    </div>
+
+    <h2>Stage 3 — ready to rent</h2>
+
+    <div class="photos">
+      <h3>Clean photos — tick them off</h3>
+      <label><input type="checkbox"> Driver side, full length</label>
+      <label><input type="checkbox"> Curb side, full length</label>
+      <label><input type="checkbox"> Slope sheets</label>
+      <label><input type="checkbox"> Sidewalls</label>
+      <label><input type="checkbox"> Fenders</label>
+      <label><input type="checkbox"> Gates open</label>
+      <label><input type="checkbox"> CVIP sticker</label>
+      <label><input type="checkbox"> Hubometer</label>
+      <label><input type="checkbox"> License plates</label>
+      <label><input type="checkbox"> Any remaining damage</label>
+      <label><input type="checkbox"> All 4 pages of the checklist</label>
+      <button class="reset" type="button" id="rst1">Clear ticks</button>
+    </div>
+
+    <div class="flag warn">
+      <b>Post them in Signal, not by email</b>
+      The date on the Signal message is the record of when the photos were taken. That is all the
+      timestamp we need.
+    </div>
+
+    <div class="stepbox go">
+      <span class="n">8</span>
+      <h3>Post that it is ready</h3>
+      <div class="msg" id="m3">Unit <b>[UNIT #]</b> is done and ready to rent.
+
+CVIP expires: <b>[DATE]</b>
+Hubometer: <b>[READING]</b>
+Work order: <b>[HOURS] hrs, parts $[AMOUNT]</b>
+Customer damage / wash to bill: <b>[WHAT, or NONE]</b>
+
+Photos and checklist attached.</div>
+      <button class="copy" data-t="m3">Copy message</button>
+    </div>
+
+    <div class="flag go">
+      <b>That is it</b>
+      Edward closes off the rental, cancels the payments and bills any damage.
+    </div>
+  </div>
+
+  <!-- ================= GOING OUT ================= -->
+  <div class="panel" id="out">
+
+    <div class="flag warn">
+      <b>Edward tells you when and who</b>
+      He'll post the unit number, customer name, and pickup date and time in Signal. If you
+      haven't got that, ask him before you hook anything up.
+    </div>
+
+    <h2>Getting one ready</h2>
+
+    <div class="stepbox">
+      <span class="n">1</span>
+      <h3>Full rental checklist</h3>
+      <p>Same checklist. Everything filled in, including brake lining and tire measurements.</p>
+    </div>
+
+    <div class="stepbox">
+      <span class="n">2</span>
+      <h3>Check the CVIP date</h3>
+      <p>If it expires within 3 months, get a new one on before it goes out.</p>
+    </div>
+
+    <div class="stepbox">
+      <span class="n">3</span>
+      <h3>Hook lead and pup together</h3>
+      <p>Test the lights with both hooked up. Split it and either install a nylon slip disk or
+      grease the 5th wheel plate.</p>
+    </div>
+
+    <div class="stepbox">
+      <span class="n">4</span>
+      <h3>Paperwork in the document holder</h3>
+      <p>Safety paperwork and registration in the holder on lead and pup. Unit number decals on.
+      Plates on both units.</p>
+    </div>
+
+    <div class="photos">
+      <h3>Photos — about 10, tick them off</h3>
+      <label><input type="checkbox"> Driver side, full length</label>
+      <label><input type="checkbox"> Curb side, full length</label>
+      <label><input type="checkbox"> Slope sheets</label>
+      <label><input type="checkbox"> Sidewalls</label>
+      <label><input type="checkbox"> Fenders</label>
+      <label><input type="checkbox"> Gates open</label>
+      <label><input type="checkbox"> CVIP sticker</label>
+      <label><input type="checkbox"> Hubometer</label>
+      <label><input type="checkbox"> License plates</label>
+      <label><input type="checkbox"> Any existing damage</label>
+      <label><input type="checkbox"> All 4 pages of the checklist</label>
+      <button class="reset" type="button" id="rst2">Clear ticks</button>
+    </div>
+
+    <div class="stepbox go">
+      <span class="n">5</span>
+      <h3>Post that it's ready</h3>
+      <div class="msg" id="m4">Unit <b>[UNIT #]</b> is ready to go out.
+
+CVIP expires: <b>[DATE]</b>
+Hubometer: <b>[READING]</b>
+Existing damage on record: <b>[WHAT, or NONE]</b>
+
+Photos and checklist attached.</div>
+      <button class="copy" data-t="m4">Copy message</button>
+    </div>
+
+    <h2>On pickup day</h2>
+
+    <div class="stepbox">
+      <span class="n">6</span>
+      <h3>Make sure it's accessible</h3>
+      <p>Pulled out and ready for the time Edward gave you.</p>
+    </div>
+
+    <div class="stepbox">
+      <span class="n">7</span>
+      <h3>Post when the customer takes it</h3>
+      <div class="msg" id="m5">Unit <b>[UNIT #]</b> picked up by <b>[CUSTOMER]</b>
+on <b>[DATE]</b> at <b>[TIME]</b>.</div>
+      <button class="copy" data-t="m5">Copy message</button>
+    </div>
+  </div>
+
+  <div class="call">
+    <h3>Anything else</h3>
+    <p><b>Trailer problem, parts needed, something you're not sure about</b> — post it in Signal
+    with the unit number and a photo.</p>
+    <p><b>Customer shows up unannounced</b> — don't release a trailer until Edward confirms.
+    Message him.</p>
+    <p><b>Urgent and Edward hasn't replied</b> — call Greg.</p>
+  </div>
+
+  <footer>
+    K&amp;K Enterprises Ltd. — Rimbey shop<br>
+    Always put the unit number in every message.
+  </footer>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+    t.classList.add('on');
+    document.getElementById(t.dataset.p).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+document.querySelectorAll('.copy').forEach(function(b){
+  b.addEventListener('click',function(){
+    var el=document.getElementById(b.dataset.t);
+    var t=el.innerText;
+    function done(){var o=b.textContent;b.textContent='Copied — paste into Signal';
+      setTimeout(function(){b.textContent=o;},1800);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(done).catch(function(){sel(el);});
+    }else{sel(el);}
+  });
+});
+function sel(el){
+  var r=document.createRange();r.selectNode(el);
+  window.getSelection().removeAllRanges();window.getSelection().addRange(r);
+}
+['rst1','rst2'].forEach(function(id){
+  var b=document.getElementById(id);
+  if(!b)return;
+  b.addEventListener('click',function(){
+    b.closest('.photos').querySelectorAll('input[type=checkbox]')
+      .forEach(function(c){c.checked=false;});
+  });
+});
+</script>
+</body>
+</html>

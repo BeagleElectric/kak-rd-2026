@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>K&amp;K Rental Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14161C;
+    --steel:#5A6270;
+    --hairline:#D6D9DE;
+    --paper:#EFF1F4;
+    --card:#FFFFFF;
+    --brand:#2E3192;
+    --brand-tint:#EDEEF7;
+    --amber:#B0770F;
+    --amber-tint:#FBF2E0;
+    --rust:#A33A2A;
+    --green:#2C6E33;
+    --green-tint:#E9F2EA;
+    --radius:3px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:15px;
+    line-height:1.55;
+    padding-bottom:64px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+
+  /* ---------- masthead ---------- */
+  .mast{
+    background:var(--ink);
+    color:#fff;
+    border-bottom:4px solid var(--brand);
+  }
+  .mast-in{
+    max-width:1080px;margin:0 auto;padding:22px 20px 20px;
+    display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px 24px;
+  }
+  .mark{display:flex;flex-direction:column;gap:2px;}
+  .mark b{
+    font-family:'Barlow Condensed',Impact,sans-serif;
+    font-weight:700;font-size:34px;line-height:.9;
+    letter-spacing:.045em;text-transform:uppercase;
+  }
+  .mark span{
+    font-family:'JetBrains Mono',ui-monospace,monospace;
+    font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:#9AA1AE;
+  }
+  .mast-note{
+    margin-left:auto;font-size:12.5px;color:#9AA1AE;max-width:280px;
+    line-height:1.45;
+  }
+
+  /* ---------- search ---------- */
+  .searchbar{
+    background:var(--brand);padding:14px 0;
+    position:sticky;top:0;z-index:20;
+  }
+  .searchbar .wrap{display:flex;gap:10px;align-items:center;}
+  #q{
+    flex:1;min-width:0;
+    font-family:'Inter',sans-serif;font-size:16px;
+    padding:11px 14px;border:0;border-radius:var(--radius);
+    background:#fff;color:var(--ink);
+    box-shadow:0 1px 0 rgba(0,0,0,.2);
+  }
+  #q::placeholder{color:#8B929E;}
+  #q:focus{outline:3px solid #fff;outline-offset:2px;}
+  #clear{
+    background:rgba(255,255,255,.15);border:0;color:#fff;
+    font-family:'Inter',sans-serif;font-size:13px;font-weight:500;
+    padding:11px 14px;border-radius:var(--radius);cursor:pointer;
+    display:none;white-space:nowrap;
+  }
+  #clear:hover{background:rgba(255,255,255,.26);}
+  #clear:focus-visible{outline:3px solid #fff;outline-offset:2px;}
+
+  /* ---------- section headers ---------- */
+  .sec{margin-top:38px;}
+  .sec-hd{
+    display:flex;align-items:baseline;gap:12px;
+    border-bottom:2px solid var(--ink);padding-bottom:7px;margin-bottom:4px;
+  }
+  .sec-hd h2{
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;font-size:21px;letter-spacing:.05em;
+    text-transform:uppercase;margin:0;
+  }
+  .sec-hd p{margin:0;font-size:13px;color:var(--steel);}
+
+  /* ---------- task rail ---------- */
+  .tasks{
+    display:grid;gap:10px;margin-top:16px;
+    grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  }
+  .task{
+    appearance:none;text-align:left;cursor:pointer;
+    background:var(--card);border:1px solid var(--hairline);
+    border-left:4px solid var(--brand);
+    border-radius:var(--radius);padding:14px 15px;
+    font-family:'Inter',sans-serif;color:var(--ink);
+    transition:border-color .12s, box-shadow .12s, transform .12s;
+  }
+  .task:hover{box-shadow:0 2px 10px rgba(20,22,28,.10);transform:translateY(-1px);}
+  .task:focus-visible{outline:3px solid var(--brand);outline-offset:2px;}
+  .task[aria-expanded="true"]{
+    background:var(--brand);border-color:var(--brand);color:#fff;
+  }
+  .task[aria-expanded="true"] .task-sub{color:#C3C6E6;}
+  .task b{
+    display:block;
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;font-size:19px;letter-spacing:.035em;
+    text-transform:uppercase;line-height:1.1;margin-bottom:3px;
+  }
+  .task-sub{font-size:12.5px;color:var(--steel);line-height:1.4;}
+
+  /* ---------- flow panel ---------- */
+  .flow{
+    display:none;background:var(--card);
+    border:1px solid var(--hairline);border-top:3px solid var(--brand);
+    border-radius:var(--radius);margin-top:12px;padding:22px 24px 8px;
+  }
+  .flow.on{display:block;}
+  .flow h3{
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    font-size:20px;letter-spacing:.04em;text-transform:uppercase;
+    margin:0 0 3px;
+  }
+  .flow .lede{margin:0 0 20px;font-size:13.5px;color:var(--steel);}
+  .step{display:flex;gap:15px;padding-bottom:20px;}
+  .step:last-of-type{padding-bottom:14px;}
+  .step-n{
+    flex:0 0 27px;height:27px;
+    background:var(--ink);color:#fff;border-radius:50%;
+    font-family:'JetBrains Mono',monospace;font-size:12px;
+    display:flex;align-items:center;justify-content:center;
+    margin-top:1px;
+  }
+  .step-b{flex:1;min-width:0;}
+  .step-b h4{
+    margin:2px 0 4px;font-size:15px;font-weight:600;
+  }
+  .step-b p{margin:0 0 9px;font-size:13.5px;color:var(--steel);}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .chip{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--brand-tint);color:var(--brand);
+    border:1px solid #CFD2EC;border-radius:var(--radius);
+    padding:6px 10px;font-size:12.5px;font-weight:500;
+    text-decoration:none;
+  }
+  .chip:hover{background:#E2E4F4;}
+  .chip:focus-visible{outline:3px solid var(--brand);outline-offset:2px;}
+  .chip .ext{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;
+    letter-spacing:.06em;opacity:.65;
+  }
+  .flag{
+    display:flex;gap:11px;align-items:flex-start;
+    border-radius:var(--radius);padding:12px 14px;margin:0 0 18px;
+    font-size:13.5px;line-height:1.5;
+  }
+  .flag.warn{background:var(--amber-tint);border-left:4px solid var(--amber);}
+  .flag.stop{background:#F9EAE7;border-left:4px solid var(--rust);}
+  .flag b{font-weight:600;}
+  .flag.warn b{color:var(--amber);}
+  .flag.stop b{color:var(--rust);}
+
+  /* ---------- document plates ---------- */
+  .grid{
+    display:grid;gap:10px;margin-top:16px;
+    grid-template-columns:repeat(auto-fill,minmax(258px,1fr));
+  }
+  .plate{
+    display:flex;flex-direction:column;
+    background:var(--card);border:1px solid var(--hairline);
+    border-left:4px solid var(--green);
+    border-radius:var(--radius);padding:13px 15px;
+    text-decoration:none;color:inherit;
+    transition:box-shadow .12s, transform .12s;
+  }
+  .plate:hover{box-shadow:0 2px 10px rgba(20,22,28,.10);transform:translateY(-1px);}
+  .plate:focus-visible{outline:3px solid var(--brand);outline-offset:2px;}
+  .plate.internal{border-left-color:var(--amber);}
+  .plate-top{
+    display:flex;justify-content:space-between;align-items:baseline;
+    gap:10px;margin-bottom:5px;
+  }
+  .plate-tag{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--green);
+  }
+  .plate.internal .plate-tag{color:var(--amber);}
+  .plate-ext{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;
+    letter-spacing:.08em;color:var(--steel);
+  }
+  .plate b{
+    font-size:14.5px;font-weight:600;line-height:1.3;margin-bottom:4px;
+  }
+  .plate p{margin:0;font-size:12.5px;color:var(--steel);line-height:1.45;}
+
+  .empty{
+    display:none;background:var(--card);border:1px dashed var(--hairline);
+    border-radius:var(--radius);padding:30px;text-align:center;
+    color:var(--steel);font-size:14px;margin-top:16px;
+  }
+  .empty.on{display:block;}
+
+  /* ---------- legend + footer ---------- */
+  .legend{
+    display:flex;flex-wrap:wrap;gap:18px;margin-top:14px;
+    font-size:12.5px;color:var(--steel);
+  }
+  .legend i{
+    display:inline-block;width:11px;height:11px;border-radius:2px;
+    margin-right:6px;vertical-align:-1px;font-style:normal;
+  }
+  footer{
+    margin-top:44px;border-top:1px solid var(--hairline);padding-top:18px;
+    font-size:12.5px;color:var(--steel);line-height:1.6;
+  }
+  footer b{color:var(--ink);}
+  .tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;}
+  #check{
+    background:var(--card);border:1px solid var(--hairline);
+    border-radius:var(--radius);padding:7px 13px;cursor:pointer;
+    font-family:'Inter',sans-serif;font-size:12.5px;font-weight:500;color:var(--ink);
+  }
+  #check:hover{border-color:var(--steel);}
+  #check:disabled{opacity:.55;cursor:default;}
+  #check:focus-visible{outline:3px solid var(--brand);outline-offset:2px;}
+  #checkOut{display:none;margin-top:12px;}
+  .chk-sum{
+    font-size:13px;color:var(--ink);font-weight:600;
+    padding:10px 12px;background:var(--card);border:1px solid var(--hairline);
+    border-radius:var(--radius);margin-bottom:8px;
+  }
+  .chk{
+    display:flex;gap:10px;align-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:11px;padding:3px 0;
+  }
+  .chk span{
+    flex:0 0 62px;font-weight:500;letter-spacing:.06em;
+  }
+  .chk.ok span{color:var(--green);}
+  .chk.no span{color:var(--rust);}
+  .chk code{color:var(--steel);word-break:break-all;}
+
+  @media (max-width:560px){
+    .mark b{font-size:27px;}
+    .mast-note{display:none;}
+    .flow{padding:18px 16px 6px;}
+    .step{gap:11px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;}
+    .plate:hover,.task:hover{transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="mast-in">
+    <div class="mark">
+      <b>Rental Desk</b>
+      <span>K&amp;K Enterprises Ltd. &middot; Internal</span>
+    </div>
+    <div class="mast-note">Every form and guide for the rental fleet. Pick what you're doing, or search.
+      <span style="display:block;margin-top:8px">
+        <a href="operations/" style="color:#fff;font-weight:500;">Manual</a> &nbsp;·&nbsp;
+        <a href="fleet/" style="color:#fff;font-weight:500;">Fleet board</a> &nbsp;·&nbsp;
+        <a href="shop/" style="color:#fff;font-weight:500;">Shop</a>
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="searchbar">
+  <div class="wrap">
+    <input id="q" type="search" placeholder="Search — agreement, guarantee, overdue, credit…" autocomplete="off" aria-label="Search documents">
+    <button id="clear" type="button">Clear</button>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="sec" id="taskSec">
+    <div class="sec-hd">
+      <h2>Start here</h2>
+      <p>What are you doing right now?</p>
+    </div>
+    <div class="tasks" id="tasks"></div>
+    <div id="flowHost"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-hd">
+      <h2>All documents</h2>
+      <p id="count"></p>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--green)"></i>Send to customer — PDF, ready as-is</span>
+      <span><i style="background:var(--amber)"></i>Internal only — never send to a customer</span>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty">Nothing matches that. Try a shorter word — <b>agreement</b>, <b>overdue</b>, <b>credit</b>, <b>guarantee</b>.</div>
+  </section>
+
+  <footer>
+    <b>Can't find something, or not sure which form?</b> Call Greg.<br>
+    Documents are Word or fillable PDF. Word files can be edited before sending; PDFs can be filled on a phone or tablet.
+    <div class="tools">
+      <button id="check" type="button">Check files</button>
+      <span>Tests that every document is where it should be. Use this if a download fails.</span>
+    </div>
+    <div id="checkOut"></div>
+  </footer>
+</main>
+
+<script>
+const DOCS = [
+  // ---- customer-facing: PDF, locked, safe to send as-is ----
+  {f:"KK_Rental_Agreement_AB.pdf", t:"Rental Agreement \u2014 Alberta", tag:"Agreement", d:"Send for any Rimbey pickup. Key Terms page plus Standard Terms.", k:"alberta ab rimbey rental agreement contract key terms"},
+  {f:"KK_Rental_Agreement_SK.pdf", t:"Rental Agreement \u2014 Saskatchewan", tag:"Agreement", d:"Send for any Delisle pickup. Key Terms page plus Standard Terms.", k:"saskatchewan sk delisle rental agreement contract"},
+  {f:"KK_Insurance_Requirements.pdf", t:"Insurance Requirements \u2014 for their broker", tag:"Agreement", d:"Send with every rental. Tells the customer's broker exactly what we need \u2014 loss payee and additional insured.", k:"insurance requirements broker certificate loss payee additional insured coverage COI"},
+  {f:"KK_Rental_Repair_Policy.pdf", t:"Rental Repair Policy", tag:"Agreement", d:"Goes with every rental. What happens on a breakdown, and who pays for what.", k:"repair policy breakdown maintenance wear items reimburse third party shop"},
+  {f:"KK_Schedule_B1_Joint_Renter_Addendum.pdf", t:"Schedule B-1 \u2014 Joint Renter Addendum", tag:"Add-on", d:"Owner signs on as a renter alongside his company. No lawyer needed.", k:"b1 joint renter addendum personally liable owner individual"},
+  {f:"KK_Schedule_B2_Personal_Guarantee_AB.pdf", t:"Schedule B-2 \u2014 Personal Guarantee (AB)", tag:"Add-on", d:"Formal guarantee. Alberta certificate must be signed by an active lawyer.", k:"b2 personal guarantee alberta lawyer certificate"},
+  {f:"KK_Schedule_B2_Personal_Guarantee_SK.pdf", t:"Schedule B-2 \u2014 Personal Guarantee (SK)", tag:"Add-on", d:"Formal guarantee. Saskatchewan certificate \u2014 lawyer or notary.", k:"b2 personal guarantee saskatchewan notary certificate farmer"},
+  {f:"KK_Customer_Credit_Screening_Form.pdf", t:"Customer Credit Screening Form", tag:"Screening", d:"Business info, trade references, and signed consent for a credit check.", k:"credit screening check consent new customer references application"},
+  {f:"KK_PAD_Authorization_Fillable.pdf", t:"PAD Authorization \u2014 bank", tag:"Payment", d:"Fills on a phone. Customer ticks Business or Personal PAD.", k:"pad pre-authorized debit bank rotessa payment fillable direct deposit"},
+  {f:"KK_Credit_Card_Authorization_Fillable.pdf", t:"Credit Card Authorization", tag:"Payment", d:"Fills on a phone. No security code field \u2014 never write the CVV down.", k:"credit card authorization converge elavon payment fillable card on file cvv"},
+  {f:"KK_1_Notice_of_Termination.pdf", t:"1 \u2014 Notice of Termination", tag:"Termination", d:"Ends the rental and demands the trailer back within 5 days. Send this first.", k:"termination notice cancel end rental demand return 5 days default"},
+  {f:"KK_3_Final_Notice.pdf", t:"3 \u2014 Final Notice", tag:"Termination", d:"Only after the 5-day deadline has passed. Last chance before it escalates.", k:"final notice termination not returned unlawful escalate"},
+
+  // ---- internal ----
+  {f:"KK_Edward_Rental_Paperwork_HowTo.docx", t:"How to \u2014 Rental Paperwork", tag:"Guide", d:"Which documents to send, which province version, when to attach an add-on.", k:"guide howto paperwork process new rental checklist template email", i:1},
+  {f:"KK_Edward_Credit_Checks_HowTo.docx", t:"How to \u2014 Credit Checks", tag:"Guide", d:"Who gets checked, consent rules, the four checks, what to do with the answer.", k:"guide howto credit check screening references registry equifax consent", i:1},
+  {f:"KK_Edward_Overdue_Accounts_HowTo.docx", t:"How to \u2014 Overdue Accounts", tag:"Guide", d:"Day-by-day timeline plus every reminder and demand template.", k:"guide howto overdue collections late payment demand arrears templates", i:1},
+  {f:"KK_Edward_Termination_Procedure.pdf", t:"How to \u2014 Termination & Recovery", tag:"Guide", d:"Step by step from confirming grounds through to recovering the trailer.", k:"guide howto termination recovery repossess procedure grounds", i:1},
+  {f:"KK_2_Record_of_Delivery.pdf", t:"2 \u2014 Record of Delivery", tag:"Termination", d:"Internal proof the Notice was delivered. Never send to the customer.", k:"record delivery proof internal termination evidence courier", i:1},
+  {f:"KK_Equipment_Condition_Report.docx", t:"Equipment Condition Report", tag:"Shop", d:"Pickup and return inspection. Corey and Brett fill this out.", k:"condition report inspection pickup return photos damage shop corey brett", i:1}
+];
+
+const FLOWS = {
+  newrental:{
+    h:"Setting up a new rental",
+    l:"Send the package at least one day before pickup. Nothing leaves the yard until insurance is in hand.",
+    flags:[{k:"warn",b:"Before you send anything:",t:"Decide if this customer needs a credit check, and whether an add-on is required. New customer, numbered company, or custom hauler — check first."}],
+    steps:[
+      {h:"Screen the customer", p:"New customer, numbered company, or anyone renting two or more units. Registry search and trade references are free — do those first.", d:["KK_Customer_Credit_Screening_Form.docx","KK_Edward_Credit_Checks_HowTo.docx"]},
+      {h:"Send the agreement", p:"Rimbey pickup uses the AB version, Delisle uses SK. Put the four Key Terms in the body of your email, not just the attachment.", d:["KK_Rental_Agreement_AB.docx","KK_Rental_Agreement_SK.docx","KK_Edward_Rental_Paperwork_HowTo.docx"]},
+      {h:"Attach an add-on if needed", p:"B-1 is the everyday choice when you want the individual covered — no lawyer, signed at the yard. B-2 only when Greg says so.", d:["KK_Schedule_B1_Joint_Renter_Addendum.docx","KK_Schedule_B2_Personal_Guarantee_AB.docx","KK_Schedule_B2_Personal_Guarantee_SK.docx"]},
+      {h:"Set up payment", p:"PAD or credit card, signed before the unit is released. Never write a security code on any form.", d:["KK_PAD_Authorization_Fillable.pdf","KK_Credit_Card_Authorization_Fillable.pdf"]},
+      {h:"Inspect at pickup", p:"Complete the condition report with the customer, including photos. Anything not written down is deemed to have happened during the rental.", d:["KK_Equipment_Condition_Report.docx"]}
+    ]
+  },
+  overdue:{
+    h:"Chasing an overdue account",
+    l:"Text first, then email. Text gets read — email is the record. Log every contact.",
+    flags:[
+      {k:"stop",b:"Never mix money and the trailer.",t:"Chasing a balance and demanding the trailer back are two separate conversations, in two separate messages."},
+      {k:"warn",b:"At 15 days past due:",t:"The account is in default under the agreement. Call Greg — the decision to pull the trailer is his, and it's separate from chasing the money."}
+    ],
+    steps:[
+      {h:"Days 1–5 — friendly reminder", p:"Assume it's a card or bank glitch. Templates are in the guide.", d:["KK_Edward_Overdue_Accounts_HowTo.docx"]},
+      {h:"Day 10 — firm notice", p:"Name the consequences: 2% monthly interest, and at 15 days we can end the rental."},
+      {h:"Day 15 — call Greg", p:"Decision point. If Greg pulls the trailer, switch to the termination package — don't mix it into the money conversation."},
+      {h:"Days 15–30 — final demand", p:"Real deadline, five business days out. Finalize the number first: deposit applied, wash and damage charges in, interest to date."},
+      {h:"Day 30+ — refer to collections", p:"Greg approves every referral. Once it goes, stop contacting the customer about the debt."}
+    ]
+  },
+  notreturned:{
+    h:"Trailer not coming back",
+    l:"Three documents, in order. The middle one never goes to the customer — it's your proof of delivery.",
+    flags:[
+      {k:"stop",b:"Call Greg before sending anything.",t:"And never go onto a customer's fenced yard or private property to hook up a unit without consent or a court order."}
+    ],
+    steps:[
+      {h:"Send the Notice of Termination", p:"Ends the rental and demands the trailer back within 5 days. Send by email, text, and courier all at once.", d:["KK_1_Notice_of_Termination.pdf"]},
+      {h:"Fill in the Record of Delivery", p:"Same day. Screenshot the sent email and text. This is the page that gets a file opened later — don't skip it.", d:["KK_2_Record_of_Delivery.pdf"]},
+      {h:"If the deadline passes — Final Notice", p:"Only after the 5 days are up. Call Greg first, then send.", d:["KK_3_Final_Notice_Before_Police.pdf"]},
+      {h:"Follow the procedure guide", p:"Full step by step, including what to do if it still doesn't come back.", d:["KK_Edward_Termination_Procedure.docx_placeholder"]}
+    ]
+  },
+  returning:{
+    h:"Trailer coming back",
+    l:"The return inspection sets every charge you'll bill. Do it with the customer there if you can.",
+    flags:[{k:"warn",b:"Finalize charges before invoicing.",t:"Wash fee, product removal, damage, missing hopper cranks. A demand for the wrong amount is the easiest thing for a customer to argue about."}],
+    steps:[
+      {h:"Complete the return inspection", p:"Same form as pickup, return side. Photos of anything you're going to charge for.", d:["KK_Equipment_Condition_Report.docx"]},
+      {h:"Apply the deposit and finalize the invoice", p:"Deposit against what's owed, then bill the balance. Minimum $250 wash fee if it came back dirty."},
+      {h:"If a balance is still owing", p:"Returning the trailer ends the rental — it does not settle the account. Use the trailer-returned demand templates.", d:["KK_Edward_Overdue_Accounts_HowTo.docx"]}
+    ]
+  }
+};
+
+const TASKS = [
+  {id:"newrental",   b:"New rental",        s:"Screening, agreement, add-ons, pickup"},
+  {id:"returning",   b:"Trailer coming back",s:"Return inspection and final charges"},
+  {id:"overdue",     b:"Overdue account",    s:"Reminders, demands, collections"},
+  {id:"notreturned", b:"Not coming back",    s:"Termination and recovery"}
+];
+
+const byFile = {};
+DOCS.forEach(d => byFile[d.f] = d);
+const nameOf = d => d.real || d.f;
+const extOf = d => nameOf(d).split(".").pop().toUpperCase();
+
+/* ---- figure out where the files actually live ----
+   Handles docs/ , repo root, and a couple of common upload mistakes. */
+let BASE = "docs/";
+const CANDIDATES = ["docs/", "", "Docs/", "files/", "documents/"];
+
+async function detectBase(){
+  const probe = nameOf(DOCS[0]);
+  for (const b of CANDIDATES){
+    try{
+      const r = await fetch(b + encodeURI(probe), {method:"HEAD", cache:"no-store"});
+      if (r.ok){ BASE = b; return true; }
+    }catch(e){ /* keep trying */ }
+  }
+  return false;
+}
+
+const href = d => BASE + encodeURI(nameOf(d));
+
+/* ---- task rail ---- */
+const tasksEl = document.getElementById("tasks");
+const flowHost = document.getElementById("flowHost");
+let openFlow = null;
+
+TASKS.forEach(t => {
+  const b = document.createElement("button");
+  b.className = "task";
+  b.type = "button";
+  b.setAttribute("aria-expanded","false");
+  b.innerHTML = `<b>${t.b}</b><span class="task-sub">${t.s}</span>`;
+  b.addEventListener("click", () => toggleFlow(t.id, b));
+  tasksEl.appendChild(b);
+});
+
+function toggleFlow(id, btn){
+  const same = openFlow === id;
+  document.querySelectorAll(".task").forEach(x => x.setAttribute("aria-expanded","false"));
+  flowHost.innerHTML = "";
+  if (same){ openFlow = null; return; }
+  openFlow = id;
+  btn.setAttribute("aria-expanded","true");
+
+  const f = FLOWS[id];
+  const wrap = document.createElement("div");
+  wrap.className = "flow on";
+  let html = `<h3>${f.h}</h3><p class="lede">${f.l}</p>`;
+  (f.flags||[]).forEach(fl => {
+    html += `<div class="flag ${fl.k}"><div><b>${fl.b}</b> ${fl.t}</div></div>`;
+  });
+  f.steps.forEach((s,i) => {
+    html += `<div class="step"><div class="step-n">${i+1}</div><div class="step-b">
+      <h4>${s.h}</h4><p>${s.p}</p>`;
+    if (s.d && s.d.length){
+      html += `<div class="chips">` + s.d.map(fn => {
+        const d = byFile[fn];
+        if (!d) return "";
+        return `<a class="chip" href="${href(d)}" download>${d.t}<span class="ext">${extOf(d)}</span></a>`;
+      }).join("") + `</div>`;
+    }
+    html += `</div></div>`;
+  });
+  wrap.innerHTML = html;
+  flowHost.appendChild(wrap);
+  if (wrap.scrollIntoView) wrap.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+/* ---- document grid ---- */
+const grid = document.getElementById("grid");
+const empty = document.getElementById("empty");
+const count = document.getElementById("count");
+
+function render(list){
+  grid.innerHTML = list.map(d => `
+    <a class="plate${d.i ? " internal" : ""}" href="${href(d)}" download>
+      <div class="plate-top">
+        <span class="plate-tag">${d.i ? "Internal · " : ""}${d.tag}</span>
+        <span class="plate-ext">${extOf(d)}</span>
+      </div>
+      <b>${d.t}</b>
+      <p>${d.d}</p>
+    </a>`).join("");
+  empty.classList.toggle("on", list.length === 0);
+  count.textContent = list.length === DOCS.length
+    ? DOCS.length + " documents"
+    : list.length + " of " + DOCS.length;
+}
+
+const q = document.getElementById("q");
+const clear = document.getElementById("clear");
+
+function filter(){
+  const s = q.value.trim().toLowerCase();
+  clear.style.display = s ? "block" : "none";
+  document.getElementById("taskSec").style.display = s ? "none" : "";
+  if (!s){ render(DOCS); return; }
+  const terms = s.split(/\s+/);
+  render(DOCS.filter(d => {
+    const hay = (d.t + " " + d.d + " " + d.tag + " " + d.k).toLowerCase();
+    return terms.every(t => hay.includes(t));
+  }));
+}
+
+q.addEventListener("input", filter);
+clear.addEventListener("click", () => { q.value = ""; filter(); q.focus(); });
+q.addEventListener("keydown", e => { if (e.key === "Escape"){ q.value=""; filter(); } });
+
+render(DOCS);
+
+/* ---- startup: locate the files, warn loudly if we can't ---- */
+(async () => {
+  const found = await detectBase();
+  filter();                       // re-render with the corrected path
+  if (found && BASE !== "docs/"){
+    banner("warn",
+      "Files are loading from " + (BASE === "" ? "the main folder" : BASE) +
+      " instead of docs/. Everything works, but see the README if you want to tidy it up.");
+  }
+  if (!found){
+    banner("stop",
+      "The documents can't be found. The Word and PDF files need to sit in a folder called " +
+      "docs/ next to index.html. Use Check files below to see what's missing.");
+  }
+})();
+
+function banner(kind, msg){
+  const d = document.createElement("div");
+  d.className = "flag " + (kind === "stop" ? "stop" : "warn");
+  d.style.margin = "18px 0 0";
+  d.innerHTML = "<div><b>" + (kind === "stop" ? "Files not found." : "Heads up.") + "</b> " + msg + "</div>";
+  document.querySelector("main.wrap").prepend(d);
+}
+
+/* ---- file checker ---- */
+const checkBtn = document.getElementById("check");
+const checkOut = document.getElementById("checkOut");
+
+checkBtn.addEventListener("click", async () => {
+  checkBtn.disabled = true;
+  checkBtn.textContent = "Checking…";
+  checkOut.style.display = "block";
+  checkOut.innerHTML = "";
+
+  let good = 0, bad = 0;
+  for (const d of DOCS){
+    let ok = false;
+    try{
+      const r = await fetch(href(d), {method:"HEAD", cache:"no-store"});
+      ok = r.ok;
+    }catch(e){ ok = false; }
+    ok ? good++ : bad++;
+    const row = document.createElement("div");
+    row.className = "chk " + (ok ? "ok" : "no");
+    row.innerHTML = "<span>" + (ok ? "OK" : "MISSING") + "</span>" +
+                    "<code>" + nameOf(d) + "</code>";
+    checkOut.appendChild(row);
+  }
+
+  const sum = document.createElement("div");
+  sum.className = "chk-sum";
+  sum.textContent = bad === 0
+    ? "All " + good + " files found. Everything should download."
+    : bad + " of " + DOCS.length + " files are missing. Upload them into the docs/ folder using the exact filenames shown above.";
+  checkOut.prepend(sum);
+
+  checkBtn.disabled = false;
+  checkBtn.textContent = "Check files";
+});
+</script>
+</body>
+</html>
