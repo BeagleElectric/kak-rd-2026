@@ -104,9 +104,21 @@
   .dlg-act{display:flex;gap:8px;margin-top:18px}
   .dlg-act .btn{flex:1;padding:10px}
 
-  .note{background:var(--amber-tint);border:1px dashed var(--amber);border-radius:var(--r);
-    padding:13px 16px;margin:20px 0;font-size:13px;line-height:1.55}
-  .note b{color:var(--amber)}
+  .howto{background:var(--card);border:1px solid var(--hairline);border-left:4px solid var(--amber);
+    border-radius:var(--r);margin:22px 0;font-size:13.5px}
+  .howto summary{cursor:pointer;padding:13px 16px;font-weight:600;color:var(--ink);
+    list-style:none;display:flex;align-items:center;gap:8px}
+  .howto summary::-webkit-details-marker{display:none}
+  .howto summary::before{content:"\25B8";color:var(--amber);font-size:11px;transition:transform .15s}
+  .howto[open] summary::before{transform:rotate(90deg)}
+  .howto summary:hover{background:#FAFAFC}
+  .howto-body{padding:0 16px 16px 30px;color:var(--steel);line-height:1.6}
+  .howto-body h4{margin:14px 0 5px;font-size:14px;font-weight:600;color:var(--ink)}
+  .howto-body h4:first-child{margin-top:0}
+  .howto-body p{margin:0 0 8px}
+  .howto-body ul{margin:0 0 8px;padding-left:18px}
+  .howto-body li{margin-bottom:3px}
+  .howto-body b{color:var(--ink)}
   footer{margin-top:30px;padding-top:16px;border-top:1px solid var(--hairline);
     font-size:12.5px;color:var(--steel);line-height:1.6}
   @media(max-width:560px){
@@ -149,11 +161,50 @@
 
   <div class="grid" id="grid"></div>
 
-  <div class="note">
-    <b>How this saves.</b> Changes save in this browser on this device. Nobody else sees them
-    automatically. Once a week hit <b>Export</b> and send the file to Greg — that's the shared
-    copy. On a new device or browser, use <b>Import</b> to load the latest file.
-  </div>
+  <details class="howto" id="howto">
+    <summary>How this board works &mdash; read once</summary>
+    <div class="howto-body">
+
+      <h4>Saving is automatic</h4>
+      <p>Click <b>Edit</b> on a unit, change what you need, click <b>Save</b>. That's it. It's stored
+      straight away and it will be there next time you open the page. There is no save button for the
+      board as a whole and nothing else you need to do.</p>
+
+      <h4>It saves to this browser, on this computer</h4>
+      <p>That's the one thing to understand. The board isn't stored on a server &mdash; it lives in the
+      browser you're using right now. So:</p>
+      <ul>
+        <li>Open it on your phone and you'll see the <b>original list</b>, not your updates</li>
+        <li>Switch browsers and you'll see the original list</li>
+        <li>Clear your browsing data and your changes are gone</li>
+        <li>Greg doesn't see your changes &mdash; he'd see the original list too</li>
+      </ul>
+      <p><b>Use one computer and one browser for this.</b> If you always work in the same place, it just
+      works and you never think about it.</p>
+
+      <h4>Export once a week &mdash; this is your backup</h4>
+      <p>Click <b>Export</b>. It downloads a small file. Send that to Greg with your Friday report.</p>
+      <p>That's the only backup that exists. If your computer dies or the browser gets cleared, that file
+      is how the board gets rebuilt &mdash; and Greg has a copy of where everything stood.</p>
+
+      <h4>Import &mdash; only when you need it</h4>
+      <p>Use <b>Import</b> to load an export file. You'd only do this if you're on a new computer, or
+      you've lost your data and want to restore from the last export.</p>
+      <p><b>Import replaces what's on the board</b>, so only do it when you're sure the file is newer than
+      what you're looking at.</p>
+
+      <h4>Keep the payment dates current</h4>
+      <p>When you do payment matching on Tuesday and Friday, update <b>Last payment received</b> and
+      <b>Next payment due</b> as you go. The board turns the next payment date red when it's overdue, so
+      if you keep those current the board shows at a glance who's behind &mdash; and your Friday screenshot
+      tells Greg everything he needs without you writing it out.</p>
+
+      <h4>Friday report</h4>
+      <p>A screenshot of this page covers most of it. Add the export file, and a line or two on anything
+      awkward or anything you need a decision on.</p>
+
+    </div>
+  </details>
 
   <footer>
     K&amp;K Enterprises Ltd. — Internal. Unit numbers only; VINs are on the agreements and in QBO.
