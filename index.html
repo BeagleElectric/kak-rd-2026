@@ -63,6 +63,19 @@
     line-height:1.45;
   }
 
+  /* ---------- masthead nav ---------- */
+  .mastnav{background:#1D2029;border-bottom:1px solid #2A2E38}
+  .mastnav .wrap{display:flex;gap:0}
+  .mastnav a{
+    flex:1;text-align:center;
+    color:#C3C8D1;text-decoration:none;
+    font-family:'Barlow Condensed',sans-serif;font-weight:600;
+    font-size:16px;letter-spacing:.05em;text-transform:uppercase;
+    padding:13px 8px;border-bottom:3px solid transparent;
+  }
+  .mastnav a:hover{color:#fff;border-bottom-color:var(--brand)}
+  .mastnav a:focus-visible{outline:3px solid #fff;outline-offset:-3px}
+
   /* ---------- search ---------- */
   .searchbar{
     background:var(--brand);padding:14px 0;
@@ -280,15 +293,17 @@
       <b>Rental Desk</b>
       <span>K&amp;K Enterprises Ltd. &middot; Internal</span>
     </div>
-    <div class="mast-note">Every form and guide for the rental fleet. Pick what you're doing, or search.
-      <span style="display:block;margin-top:8px">
-        <a href="operations/" style="color:#fff;font-weight:500;">Manual</a> &nbsp;·&nbsp;
-        <a href="fleet/" style="color:#fff;font-weight:500;">Fleet board</a> &nbsp;·&nbsp;
-        <a href="shop/" style="color:#fff;font-weight:500;">Shop</a>
-      </span>
-    </div>
+    <div class="mast-note">Every form and guide for the rental fleet. Pick what you're doing, or search.</div>
   </div>
 </header>
+
+<nav class="mastnav">
+  <div class="wrap">
+    <a href="operations/">Manual</a>
+    <a href="fleet/">Fleet board</a>
+    <a href="shop/">Shop</a>
+  </div>
+</nav>
 
 <div class="searchbar">
   <div class="wrap">
@@ -345,6 +360,7 @@ const DOCS = [
   {f:"KK_Customer_Credit_Screening_Form.pdf", t:"Customer Credit Screening Form", tag:"Screening", d:"Business info, trade references, and signed consent for a credit check.", k:"credit screening check consent new customer references application"},
   {f:"KK_PAD_Authorization_Fillable.pdf", t:"PAD Authorization \u2014 bank", tag:"Payment", d:"Fills on a phone. Customer ticks Business or Personal PAD.", k:"pad pre-authorized debit bank rotessa payment fillable direct deposit"},
   {f:"KK_Credit_Card_Authorization_Fillable.pdf", t:"Credit Card Authorization", tag:"Payment", d:"Fills on a phone. No security code field \u2014 never write the CVV down.", k:"credit card authorization converge elavon payment fillable card on file cvv"},
+  {f:"KK_Payment_Plan_Agreement.pdf", t:"Payment Plan Agreement", tag:"Collections", d:"When a customer needs to spread out what they owe. Acknowledges the debt and schedules automatic payments.", k:"payment plan arrears instalment schedule arrangement owing balance collections"},
   {f:"KK_1_Notice_of_Termination.pdf", t:"1 \u2014 Notice of Termination", tag:"Termination", d:"Ends the rental and demands the trailer back within 5 days. Send this first.", k:"termination notice cancel end rental demand return 5 days default"},
   {f:"KK_3_Final_Notice.pdf", t:"3 \u2014 Final Notice", tag:"Termination", d:"Only after the 5-day deadline has passed. Last chance before it escalates.", k:"final notice termination not returned unlawful escalate"},
 
