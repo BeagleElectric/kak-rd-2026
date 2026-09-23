@@ -101,6 +101,11 @@
     background:var(--card)}
   .fld input:focus,.fld select:focus{outline:2px solid var(--brand);outline-offset:0;border-color:var(--brand)}
   .r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .sep{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;letter-spacing:.05em;
+    text-transform:uppercase;border-top:1px solid var(--hairline);padding-top:12px;margin:16px 0 10px}
+  .u-row b.own{color:var(--brand);font-weight:600}
+  .u-row b.done{color:var(--green);font-weight:600}
   .dlg-act{display:flex;gap:8px;margin-top:18px}
   .dlg-act .btn{flex:1;padding:10px}
 
@@ -144,6 +149,7 @@
   <button class="chip" data-f="booked">Booked <i id="c-booked">0</i></button>
   <button class="chip" data-f="available">Available <i id="c-available">0</i></button>
   <button class="chip" data-f="shop">In shop <i id="c-shop">0</i></button>
+  <button class="chip" data-f="rtodue">Offer due <i id="c-rtodue">0</i></button>
   <span class="grow"></span>
   <button class="btn" id="exp">Export</button>
   <button class="btn" id="imp">Import</button>
@@ -157,6 +163,7 @@
     <div class="card"><i>Sitting idle</i><b id="s-idle">0</b><small>available now</small></div>
     <div class="card"><i>Payment overdue</i><b id="s-late" class="bad">0</b><small>need chasing</small></div>
     <div class="card"><i>CVIP inside 60 days</i><b id="s-cvip" class="warn">0</b><small>book the shop</small></div>
+    <div class="card"><i>Own-it offer due</i><b id="s-rto" class="warn">0</b><small>rent-to-own &middot; Step 14</small></div>
   </div>
 
   <div class="grid" id="grid"></div>
@@ -198,6 +205,14 @@
       <b>Next payment due</b> as you go. The board turns the next payment date red when it's overdue, so
       if you keep those current the board shows at a glance who's behind &mdash; and your Friday screenshot
       tells Greg everything he needs without you writing it out.</p>
+
+      <h4>Rent-to-own offers</h4>
+      <p>Every unit on rent shows an <b>Own it</b> line. <b>Offer due</b> means send the rent-to-own text and
+      picture (manual, Step 14), then Edit &rarr; Rent-to-own &rarr; <b>Offered</b> with today's date. It comes
+      due again 90 days later, or 6 months after a &ldquo;not now&rdquo;. Anyone behind on payments shows
+      <b>Hold</b> &mdash; sort the money first.</p>
+      <p>Once Schedule C is signed, enter the signing date, purchase price and monthly credit. The card then shows
+      the buyout. Add 1 to <b>Months not credited</b> for every month paid more than 5 days late.</p>
 
       <h4>Friday report</h4>
       <p>A screenshot of this page covers most of it. Add the export file, and a line or two on anything
@@ -247,6 +262,25 @@
     <div class="fld"><label>Hubometer</label><input id="f-hub" type="text" placeholder="km"></div>
   </div>
   <div class="fld"><label>Note</label><input id="f-note" type="text" placeholder="Anything worth remembering"></div>
+
+  <div class="sep">Rent-to-own</div>
+  <div class="r2">
+    <div class="fld"><label>Status</label>
+      <select id="f-rto">
+        <option value="">Not offered yet</option>
+        <option value="offered">Offered</option>
+        <option value="interested">Interested &mdash; with Greg</option>
+        <option value="notnow">Not now</option>
+        <option value="signed">Signed (Schedule C)</option>
+      </select>
+    </div>
+    <div class="fld"><label id="l-rtodate">Date offered</label><input id="f-rtodate" type="date"></div>
+  </div>
+  <div class="r3" id="rto-signed">
+    <div class="fld"><label>Purchase price</label><input id="f-rtoprice" type="number" step="500"></div>
+    <div class="fld"><label>Monthly credit</label><input id="f-rtocredit" type="number" step="10"></div>
+    <div class="fld"><label>Months not credited</label><input id="f-rtomiss" type="number" step="1" min="0"></div>
+  </div>
 
   <div class="dlg-act">
     <button class="btn" value="cancel" type="submit">Cancel</button>
@@ -301,7 +335,8 @@ function load(){
   FLEET.forEach(function(f){
     var seed=SEED[f.u]||{};
     s[f.u]={status:seed.status||"available", cust:seed.cust||"", rate:f.rate,
-            pay:seed.pay||"", start:"", next:"", last:"", cvip:"", ins:"", hub:"", note:""};
+            pay:seed.pay||"", start:"", next:"", last:"", cvip:"", ins:"", hub:"", note:"",
+            rto:"", rtoDate:"", rtoPrice:"", rtoCredit:"", rtoMiss:""};
   });
   return s;
 }
@@ -322,10 +357,42 @@ function fmt(d){
 }
 var STAT={active:"On rent",booked:"Booked",available:"Available",shop:"In shop"};
 
+/* ---- rent-to-own ---- */
+function monthsSince(d){
+  if(!d) return 0;
+  var a=new Date(d+"T00:00:00"), n=new Date();
+  var m=(n.getFullYear()-a.getFullYear())*12+(n.getMonth()-a.getMonth());
+  if(n.getDate()<a.getDate()) m--;
+  return Math.max(0,m);
+}
+function money(v){ return "$"+Math.round(v).toLocaleString(); }
+// returns {txt, cls, due}
+function own(s){
+  if(s.status!=="active") return null;
+  var r=s.rto||"", since=s.rtoDate?-daysFrom(s.rtoDate):null;
+  if(r==="signed"){
+    var price=Number(s.rtoPrice)||0, cr=Number(s.rtoCredit)||0;
+    if(!price||!cr) return {txt:"Signed — add price & credit", cls:"soon", due:false};
+    var n=Math.max(0,monthsSince(s.rtoDate)-(Number(s.rtoMiss)||0));
+    return {txt:"Buyout "+money(Math.max(0,price-cr*n))+" · "+n+" mo credited", cls:"done", due:false};
+  }
+  if(r==="interested") return {txt:"Interested — with Greg", cls:"own", due:false};
+  var dn=daysFrom(s.next);
+  var behind=(dn!==null&&dn<0);
+  var due;
+  if(r==="offered") due = since===null || since>=90;
+  else if(r==="notnow") due = since===null || since>=182;
+  else { var st=s.start?-daysFrom(s.start):null; due = st===null || st>=30; }
+  if(due&&behind) return {txt:"Hold — payment behind", cls:"late", due:false};
+  if(r==="offered") return {txt:(due?"Offer due · last ":"Offered ")+fmt(s.rtoDate), cls:due?"soon":"", due:due};
+  if(r==="notnow") return {txt:(due?"Offer due · not now ":"Not now · ")+fmt(s.rtoDate), cls:due?"soon":"", due:due};
+  return {txt:due?"Offer due · never offered":"Not yet · 30 days in", cls:due?"soon":"", due:due};
+}
+
 function render(){
   var g=document.getElementById("grid");
   var counts={all:FLEET.length,active:0,booked:0,available:0,shop:0};
-  var rev=0, late=0, cvipSoon=0;
+  var rev=0, late=0, cvipSoon=0, rtoDue=0;
 
   FLEET.forEach(function(f){
     var s=state[f.u];
@@ -335,7 +402,9 @@ function render(){
     if(s.status==="active" && dn!==null && dn<0) late++;
     var dc=daysFrom(s.cvip);
     if(dc!==null && dc<=60) cvipSoon++;
+    var o=own(s); if(o&&o.due) rtoDue++;
   });
+  counts.rtodue=rtoDue;
 
   Object.keys(counts).forEach(function(k){
     var el=document.getElementById("c-"+k); if(el) el.textContent=counts[k];
@@ -345,8 +414,11 @@ function render(){
   document.getElementById("s-idle").textContent=counts.available;
   document.getElementById("s-late").textContent=late;
   document.getElementById("s-cvip").textContent=cvipSoon;
+  document.getElementById("s-rto").textContent=rtoDue;
 
-  var list=FLEET.filter(function(f){ return filter==="all"||state[f.u].status===filter; });
+  var list=FLEET.filter(function(f){
+    if(filter==="rtodue"){ var o=own(state[f.u]); return !!(o&&o.due); }
+    return filter==="all"||state[f.u].status===filter; });
   g.innerHTML=list.map(function(f){
     var s=state[f.u];
     var dn=daysFrom(s.next), dc=daysFrom(s.cvip), di=daysFrom(s.ins);
@@ -367,6 +439,7 @@ function render(){
       +row("CVIP",fmt(s.cvip),cvipCls)
       +(s.ins?row("Insurance",fmt(s.ins),insCls):"")
       +(s.note?row("Note",s.note):"")
+      +(function(){ var o=own(s); return o?row("Own it",o.txt,o.cls):""; })()
       +'</div>'
       +'<div class="u-act"><button data-e="'+f.u+'">Edit</button></div>'
       +'</div>';
@@ -397,8 +470,24 @@ function open(u){
   document.getElementById("f-ins").value=s.ins;
   document.getElementById("f-hub").value=s.hub;
   document.getElementById("f-note").value=s.note;
+  document.getElementById("f-rto").value=s.rto||"";
+  document.getElementById("f-rtodate").value=s.rtoDate||"";
+  document.getElementById("f-rtoprice").value=s.rtoPrice||"";
+  document.getElementById("f-rtocredit").value=s.rtoCredit||"";
+  document.getElementById("f-rtomiss").value=s.rtoMiss||"";
+  rtoFields();
   dlg.showModal();
 }
+function rtoFields(){
+  var v=document.getElementById("f-rto").value;
+  document.getElementById("rto-signed").style.display = v==="signed" ? "" : "none";
+  document.getElementById("l-rtodate").textContent = v==="signed" ? "Date signed" : (v==="notnow" ? "Date they said no" : "Date offered");
+}
+document.getElementById("f-rto").addEventListener("change",function(){
+  rtoFields();
+  var d=document.getElementById("f-rtodate");
+  if(this.value && this.value!=="interested") d.value=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+});
 document.getElementById("frm").addEventListener("submit",function(e){
   if(dlg.returnValue==="cancel"||e.submitter&&e.submitter.value==="cancel"){ return; }
 });
@@ -416,7 +505,12 @@ dlg.addEventListener("close",function(){
   s.ins=document.getElementById("f-ins").value;
   s.hub=document.getElementById("f-hub").value.trim();
   s.note=document.getElementById("f-note").value.trim();
-  if(s.status==="available"||s.status==="shop"){ s.cust=""; }
+  s.rto=document.getElementById("f-rto").value;
+  s.rtoDate=document.getElementById("f-rtodate").value;
+  s.rtoPrice=document.getElementById("f-rtoprice").value;
+  s.rtoCredit=document.getElementById("f-rtocredit").value;
+  s.rtoMiss=document.getElementById("f-rtomiss").value;
+  if(s.status==="available"||s.status==="shop"){ s.cust=""; s.rto=""; s.rtoDate=""; s.rtoPrice=""; s.rtoCredit=""; s.rtoMiss=""; }
   save(); render(); editing=null;
 });
 

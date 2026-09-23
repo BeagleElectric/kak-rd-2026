@@ -116,7 +116,7 @@
   /* ---------- task rail ---------- */
   .tasks{
     display:grid;gap:10px;margin-top:16px;
-    grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
   }
   .task{
     appearance:none;text-align:left;cursor:pointer;
@@ -357,6 +357,8 @@ const DOCS = [
   {f:"KK_Schedule_B1_Joint_Renter_Addendum.pdf", t:"Schedule B-1 \u2014 Joint Renter Addendum", tag:"Add-on", d:"Owner signs on as a renter alongside his company. No lawyer needed.", k:"b1 joint renter addendum personally liable owner individual"},
   {f:"KK_Schedule_B2_Personal_Guarantee_AB.pdf", t:"Schedule B-2 \u2014 Personal Guarantee (AB)", tag:"Add-on", d:"Formal guarantee. Alberta certificate must be signed by an active lawyer.", k:"b2 personal guarantee alberta lawyer certificate"},
   {f:"KK_Schedule_B2_Personal_Guarantee_SK.pdf", t:"Schedule B-2 \u2014 Personal Guarantee (SK)", tag:"Add-on", d:"Formal guarantee. Saskatchewan certificate \u2014 lawyer or notary.", k:"b2 personal guarantee saskatchewan notary certificate farmer"},
+  {f:"KK_Schedule_C_Rent_to_Own_Option.pdf", t:"Schedule C \u2014 Rent-to-Own Option", tag:"Add-on", d:"Customer can buy the trailer. 50% or 65% of rent credited. Greg sets the price before it goes out.", k:"schedule c rent to own rto purchase buy option buyout credit"},
+  {f:"KK_Rent_to_Own_Offer.png", t:"Rent-to-Own Offer \u2014 picture to text", tag:"Marketing", d:"Save to your phone and text it with the offer. Manual, Step 14.", k:"rent to own rto offer picture image png text marketing buy own"},
   {f:"KK_Customer_Credit_Screening_Form.pdf", t:"Customer Credit Screening Form", tag:"Screening", d:"Business info, trade references, and signed consent for a credit check.", k:"credit screening check consent new customer references application"},
   {f:"KK_PAD_Authorization_Fillable.pdf", t:"PAD Authorization \u2014 bank", tag:"Payment", d:"Fills on a phone. Customer ticks Business or Personal PAD.", k:"pad pre-authorized debit bank rotessa payment fillable direct deposit"},
   {f:"KK_Credit_Card_Authorization_Fillable.pdf", t:"Credit Card Authorization", tag:"Payment", d:"Fills on a phone. No security code field \u2014 never write the CVV down.", k:"credit card authorization converge elavon payment fillable card on file cvv"},
@@ -379,9 +381,9 @@ const FLOWS = {
     l:"Send the package at least one day before pickup. Nothing leaves the yard until insurance is in hand.",
     flags:[{k:"warn",b:"Before you send anything:",t:"Decide if this customer needs a credit check, and whether an add-on is required. New customer, numbered company, or custom hauler — check first."}],
     steps:[
-      {h:"Screen the customer", p:"New customer, numbered company, or anyone renting two or more units. Registry search and trade references are free — do those first.", d:["KK_Customer_Credit_Screening_Form.docx","KK_Edward_Credit_Checks_HowTo.docx"]},
-      {h:"Send the agreement", p:"Rimbey pickup uses the AB version, Delisle uses SK. Put the four Key Terms in the body of your email, not just the attachment.", d:["KK_Rental_Agreement_AB.docx","KK_Rental_Agreement_SK.docx","KK_Edward_Rental_Paperwork_HowTo.docx"]},
-      {h:"Attach an add-on if needed", p:"B-1 is the everyday choice when you want the individual covered — no lawyer, signed at the yard. B-2 only when Greg says so.", d:["KK_Schedule_B1_Joint_Renter_Addendum.docx","KK_Schedule_B2_Personal_Guarantee_AB.docx","KK_Schedule_B2_Personal_Guarantee_SK.docx"]},
+      {h:"Screen the customer", p:"New customer, numbered company, or anyone renting two or more units. Registry search and trade references are free — do those first.", d:["KK_Customer_Credit_Screening_Form.pdf","KK_Edward_Credit_Checks_HowTo.docx"]},
+      {h:"Send the agreement", p:"Rimbey pickup uses the AB version, Delisle uses SK. Put the four Key Terms in the body of your email, not just the attachment.", d:["KK_Rental_Agreement_AB.pdf","KK_Rental_Agreement_SK.pdf","KK_Insurance_Requirements.pdf","KK_Rental_Repair_Policy.pdf","KK_Edward_Rental_Paperwork_HowTo.docx"]},
+      {h:"Attach an add-on if needed", p:"B-1 is the everyday choice when you want the individual covered — no lawyer, signed at the yard. B-2 only when Greg says so. Schedule C only for rent-to-own, once Greg has given you the numbers.", d:["KK_Schedule_B1_Joint_Renter_Addendum.pdf","KK_Schedule_B2_Personal_Guarantee_AB.pdf","KK_Schedule_B2_Personal_Guarantee_SK.pdf","KK_Schedule_C_Rent_to_Own_Option.pdf"]},
       {h:"Set up payment", p:"PAD or credit card, signed before the unit is released. Never write a security code on any form.", d:["KK_PAD_Authorization_Fillable.pdf","KK_Credit_Card_Authorization_Fillable.pdf"]},
       {h:"Inspect at pickup", p:"Complete the condition report with the customer, including photos. Anything not written down is deemed to have happened during the rental.", d:["KK_Equipment_Condition_Report.docx"]}
     ]
@@ -394,10 +396,10 @@ const FLOWS = {
       {k:"warn",b:"At 15 days past due:",t:"The account is in default under the agreement. Call Greg — the decision to pull the trailer is his, and it's separate from chasing the money."}
     ],
     steps:[
-      {h:"Days 1–5 — friendly reminder", p:"Assume it's a card or bank glitch. Templates are in the guide.", d:["KK_Edward_Overdue_Accounts_HowTo.docx"]},
-      {h:"Day 10 — firm notice", p:"Name the consequences: 2% monthly interest, and at 15 days we can end the rental."},
+      {h:"Days 1–5 — friendly reminder", p:"Assume it's a card or bank glitch. Check Rotessa for pending payments first. Templates are in the guide.", d:["KK_Edward_Overdue_Accounts_HowTo.docx"]},
+      {h:"Day 10 — firm notice", p:"Quote the balance and the next invoice date. Say plainly that at 15 days we can end the rental."},
       {h:"Day 15 — call Greg", p:"Decision point. If Greg pulls the trailer, switch to the termination package — don't mix it into the money conversation."},
-      {h:"Days 15–30 — final demand", p:"Real deadline, five business days out. Finalize the number first: deposit applied, wash and damage charges in, interest to date."},
+      {h:"Days 15–30 — final demand", p:"Real deadline, five business days out. Finalize the number first: deposit applied, wash and damage charges in.", d:["KK_Payment_Plan_Agreement.pdf"]},
       {h:"Day 30+ — refer to collections", p:"Greg approves every referral. Once it goes, stop contacting the customer about the debt."}
     ]
   },
@@ -410,8 +412,23 @@ const FLOWS = {
     steps:[
       {h:"Send the Notice of Termination", p:"Ends the rental and demands the trailer back within 5 days. Send by email, text, and courier all at once.", d:["KK_1_Notice_of_Termination.pdf"]},
       {h:"Fill in the Record of Delivery", p:"Same day. Screenshot the sent email and text. This is the page that gets a file opened later — don't skip it.", d:["KK_2_Record_of_Delivery.pdf"]},
-      {h:"If the deadline passes — Final Notice", p:"Only after the 5 days are up. Call Greg first, then send.", d:["KK_3_Final_Notice_Before_Police.pdf"]},
-      {h:"Follow the procedure guide", p:"Full step by step, including what to do if it still doesn't come back.", d:["KK_Edward_Termination_Procedure.docx_placeholder"]}
+      {h:"If the deadline passes — Final Notice", p:"Only after the 5 days are up. Call Greg first, then send.", d:["KK_3_Final_Notice.pdf"]},
+      {h:"Follow the procedure guide", p:"Full step by step, including what to do if it still doesn't come back.", d:["KK_Edward_Termination_Procedure.pdf"]}
+    ]
+  },
+  rto:{
+    h:"Customer wants to buy",
+    l:"Every renter should hear about rent-to-own. You send the offer and pass anyone interested to Greg — Greg sets the price.",
+    flags:[
+      {k:"warn",b:"Never quote a price or buyout.",t:"And don't promise that rent already paid counts. Greg gives you the numbers; they go on Schedule C."},
+      {k:"stop",b:"Not to anyone who's behind.",t:"Sort the money first. Overdue or on a payment plan means no offer until they're current."}
+    ],
+    steps:[
+      {h:"Send the offer", p:"Text plus the picture: 30 days into a new rental, every 90 days after, and whenever someone talks about bringing a trailer back. Templates are in the manual, Step 14.", d:["KK_Rent_to_Own_Offer.png"]},
+      {h:"Log it on the fleet board", p:"Edit the unit → Rent-to-own → Offered, today's date. The board flags when it's due again."},
+      {h:"They're interested — text Greg", p:"Unit, customer, rate, which plan they're leaning to (50% or 65%), when they'd want to buy. Mark them Interested on the board."},
+      {h:"Send Schedule C", p:"Once Greg gives you price, plan, monthly credit and term. Fill those in, then send in SignNow — on its own for an existing renter, with the agreement for a new one.", d:["KK_Schedule_C_Rent_to_Own_Option.pdf"]},
+      {h:"Once it's signed", p:"Fleet board → Signed, with price and monthly credit — the card shows the buyout. Months paid more than 5 days late don't earn a credit."}
     ]
   },
   returning:{
@@ -430,7 +447,8 @@ const TASKS = [
   {id:"newrental",   b:"New rental",        s:"Screening, agreement, add-ons, pickup"},
   {id:"returning",   b:"Trailer coming back",s:"Return inspection and final charges"},
   {id:"overdue",     b:"Overdue account",    s:"Reminders, demands, collections"},
-  {id:"notreturned", b:"Not coming back",    s:"Termination and recovery"}
+  {id:"notreturned", b:"Not coming back",    s:"Termination and recovery"},
+  {id:"rto",         b:"Wants to buy",       s:"Rent-to-own offer and Schedule C"}
 ];
 
 const byFile = {};
